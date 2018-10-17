@@ -23,7 +23,7 @@ string IDRE[] = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"
 set<string> IDFirstRESet (IDFirstRE, IDFirstRE+53);
 set<string> IDRESet (IDRE, IDRE+63);
 
-string exp(list<string> tokenStr, list<string>::iterator& currentIt);
+string exp(list<string>& tokenStr, list<string>::iterator& currentIt);
 
 list<string> SliceAdj(string str, list<string>& subString)
 {
@@ -165,7 +165,7 @@ list<string> Slice(string str, list<string>& subString)
     return ans;
 }
 
-string primary_tail(list<string> tokenStr, list<string>::iterator& currentIt)
+string primary_tail(list<string>& tokenStr, list<string>::iterator& currentIt)
 {
     //cout<<"\nPrimary_tail"<<*currentIt;
     string ans="PASS";
@@ -200,7 +200,7 @@ string primary_tail(list<string> tokenStr, list<string>::iterator& currentIt)
     return ans;
 }
 
-string primary(list<string> tokenStr, list<string>::iterator& currentIt)
+string primary(list<string>& tokenStr, list<string>::iterator& currentIt)
 {
     //cout<<"\nPrimary"<<*currentIt;
     string ans="";
@@ -216,7 +216,7 @@ string primary(list<string> tokenStr, list<string>::iterator& currentIt)
     return ans;
 }
 
-string exp(list<string> tokenStr, list<string>::iterator& currentIt)
+string exp(list<string>& tokenStr, list<string>::iterator& currentIt)
 {
     //cout<<"\nexp "<<*currentIt;
     string ans="PASS";
@@ -239,7 +239,7 @@ string exp(list<string> tokenStr, list<string>::iterator& currentIt)
     return ans;
 }
 
-string stmt(list<string> tokenStr, list<string>::iterator& currentIt)
+string stmt(list<string>& tokenStr, list<string>::iterator& currentIt)
 {
     //cout<<"\nStmt "<<*currentIt;
     string ans="";
@@ -257,7 +257,7 @@ string stmt(list<string> tokenStr, list<string>::iterator& currentIt)
     return ans;
 }
 
-string stmts(list<string> tokenStr, list<string>::iterator& currentIt)
+string stmts(list<string>& tokenStr, list<string>::iterator& currentIt)
 {
     //cout<<"\nStmts "<<*currentIt;
     string ans="PASS";
