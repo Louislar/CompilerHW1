@@ -25,6 +25,73 @@ set<string> IDRESet (IDRE, IDRE+63);
 
 string exp(list<string> tokenStr, list<string>::iterator& currentIt);
 
+list<string> SliceAdj(string str, list<string>& subString)
+{
+    list<string> ans;
+    for(int i=0;i<str.length();i++)
+    {
+        if(str.substr(i, 1).compare("\(")==0){
+            ans.push_back("LBR");
+            subString.push_back("\(");
+        }
+        else if(str.substr(i, 1).compare("\)")==0){
+            ans.push_back("RBR");
+            subString.push_back("\)");
+        }
+        else if(str.substr(i, 1).compare("\.")==0){
+            ans.push_back("DOT");
+            subString.push_back("\.");
+        }
+        else if(str.substr(i, 1).compare(";")==0){
+            ans.push_back("SEMICOLON");
+            subString.push_back(";");
+        }
+        else if(IDFirstRESet.count(str.substr(i, 1))!=0){
+            int tempStr=i;
+            if((i+1) < str.length())
+            {
+                i++;
+            }
+            while(IDRESet.count(str.substr(i, 1))!=0)
+            {
+                i++;
+                if(i>=str.length())
+                    break;
+            }
+            ans.push_back("ID");
+            subString.push_back(str.substr(tempStr, i-tempStr));
+            i--;
+        }
+        //can use string.find() will be more easier
+        else if(str.substr(i, 1).compare("\"")==0){
+            int tempStr=i;  //first " appear index
+            size_t found=-1;
+
+            if(i+1!=str.length())
+                found=str.find("\"", i+1, 1);
+            tempStr=(int)found;
+
+            if(found==string::npos || i==str.length()-1)
+            {
+                subString.push_back("ERROR");
+                ans.push_back("ERROR");
+            }
+            else
+            {
+                subString.push_back(str.substr(i, tempStr-i+1));
+                ans.push_back("STRLIT");
+                i=(int)found;
+            }
+        }
+        else
+        {
+            subString.push_back("ERROR");
+            ans.push_back("ERROR");
+        }
+    }
+    return ans;
+}
+
 list<string> Slice(string str, list<string>& subString)
 {
     list<string> ans;
@@ -62,6 +129,7 @@ list<string> Slice(string str, list<string>& subString)
             subString.push_back(str.substr(tempStr, i-tempStr));
             i--;
         }
+        //can use string.find() will be more easier
         else if(str.substr(i, 1).compare("\"")==0){
             int tempStr=i;
             if((i+1) < str.length())
@@ -164,7 +232,7 @@ string exp(list<string> tokenStr, list<string>::iterator& currentIt)
     else if((*currentIt).compare("SEMICOLON")==0
             ||(*currentIt).compare("RBR")==0)
             {
-
+                /* do nothing for lambda*/
             }
     else
         ans="ERROR";
@@ -225,7 +293,7 @@ int main()
 
     while(cin>>str)
     {
-        tokenList=Slice(str, stringList);
+        tokenList=SliceAdj(str, stringList);
         list<string> tokenList2(tokenList);
         stringList.push_back("EOF");
         tokenList.push_back("$");   // Add end sign "$"
